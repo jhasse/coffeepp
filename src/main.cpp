@@ -12,12 +12,12 @@ int main(int argc, char** argv) {
 		// Declare the supported options.
 		options_description desc("Allowed options");
 		desc.add_options()
-		    ("help", "produce help message")
-		    ("compile", value<int>(), "set compression level")
-		    ("input", value(&input), "input files")
-	    ;
+			("help", "produce help message")
+			("compile", value<int>(), "set compression level")
+			("input", value(&input), "input files")
+		;
 
-	    positional_options_description p;
+		positional_options_description p;
 		p.add("input", -1);
 
 		variables_map vm;
@@ -25,8 +25,8 @@ int main(int argc, char** argv) {
 		notify(vm);
 
 		if (vm.count("help")) {
-		    std::cout << desc << std::endl;
-		    return 1;
+			std::cout << desc << std::endl;
+			return 1;
 		}
 
 		for (const auto& filename : input) {
