@@ -18,7 +18,6 @@ a {
 pre {
 	line-height: 110%;
 	tab-size: 4;
-}
-.red {
-	color: #ee3241;
+	-o-tab-size: 4;
+	-moz-tab-size: 4;
 }
