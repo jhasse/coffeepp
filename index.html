@@ -1,0 +1,149 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Coffee++</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link href="css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="css/standard.css" rel="stylesheet"/>
+	<link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+	<link href="css/prettify.css" rel="stylesheet"/>
+</head>
+<body onload="prettyPrint()">
+	<div class="container">
+	<h1><span class="green">C</span><span style="color:#555">offee</span><span class="green">++</span></h1>
+	<p>
+		Coffee++ is a little language that compiles into C++. It has been created to have something similar to
+		<a href="http://coffeescript.org/">CoffeeScript</a> for C++. Currently Coffee++ is in a pre-alpha state and not at all
+		usable or final. Checkout the <a href="https://github.com/jhasse/coffeepp">source on Github</a> to get involved.
+	</p>
+	<p>
+		The golden rule of Coffee++ is: "It's just C++". The code compiles one-to-one into the equivalent C++, and there
+		is no interpretation at runtime. You can use any existing C++ library seamlessly from Coffee++ (and vice-versa).
+	</p>
+	<h2>Overview</h2>
+	<div class="row">
+		<div class="span4">
+			<p>source file <i>Test.cf++</i></p>
+			<pre class="prettyprint">include iostream
+
+class Test:
+	public new():
+		bar = 123
+	public void foo():
+		std::cout &lt;&lt; <span class="red">"Coffee++!\n"</span>
+	private int bar
+
+int main():
+	int a = 5
+	if a != 7:
+		Test test
+		test.foo()</pre>
+		</div>
+		<div class="span4">
+			<p>compiled <i>Test.hpp</i></p>
+			<pre class="prettyprint">#pragma once
+
+class Test {
+public:
+	Test();
+	void foo();
+private:
+	int bar;
+};
+
+int main();</pre>
+		</div>
+		<div class="span4">
+			<p>compiled <i>Test.cpp</i></p>
+			<pre class="prettyprint">#include "test.h"
+
+#include &lt;iostream&gt;
+
+Test::Test() : bar(123) {
+}
+
+void Test::foo() {
+	std::cout &lt;&lt; "Coffee++!\n";
+}
+
+int main() {
+	int a = 5;
+	if (a != 7) {
+		Test test;
+		test.foo();
+	}
+}</pre>
+		</div>
+	</div>
+<!--
+Template for code examples:
+
+<div class="row">
+	<div class="span4">
+		<p>.cf++</p>
+		<pre class="prettyprint"></pre>
+	</div>
+	<div class="span4">
+		<p>.hpp</p>
+		<pre class="prettyprint"></pre>
+	</div>
+	<div class="span4">
+		<p>.cpp</p>
+		<pre class="prettyprint"></pre>
+	</div>
+</div>
+-->
+<h2>Language Reference</h2>
+<h3>Include</h3>
+<p>To include a library you can use the <b>include</b> statement:</p>
+<div class="row">
+	<div class="span4">
+		<p><i>Example.cf++</i></p>
+		<pre class="prettyprint">include iostream
+include boost/array.hpp header</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.hpp</i></p>
+		<pre class="prettyprint">#include &lt;boost/array.hpp&gt;</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.cpp</i></p>
+		<pre class="prettyprint">#include "Example.hpp"
+
+#include &lt;iostream&gt;</pre>
+	</div>
+</div>
+<p>
+	If you want to include a local file use <b>import</b>. Appending <b>forward</b> will also forward declare the class
+	with the same name as the file:
+</p>
+<div class="row">
+	<div class="span4">
+		<p><i>Example.cf++</i></p>
+		<pre class="prettyprint">import legacy.h
+import Foo
+import Bar forward
+import Test header</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.hpp</i></p>
+		<pre class="prettyprint">#include "Test.hpp"
+
+class Bar;</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.cpp</i></p>
+		<pre class="prettyprint">#include "Example.hpp"
+
+#include "legacy.h"
+#include "Foo.hpp"
+#include "Bar.hpp"</pre>
+	</div>
+</div>
+</div>
+	<script type="text/javascript" src="js/prettify.js"></script>
+	<script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
