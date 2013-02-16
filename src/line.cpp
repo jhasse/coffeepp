@@ -3,21 +3,39 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
-Line::Line(const std::string& buf) : oldBuf(buf), indent(0), beginScope(false) {
+Line::Line(const std::string& buf, bool waitForEndComment) : oldBuf(buf), indent(0), beginScope(false),
+beginComment(waitForEndComment) {
 	boost::trim_right(oldBuf);
 	if (isEmpty()) {
 		return;
 	}
+	if (waitForEndComment) {
+		auto pos = buf.find("*/");
+		if (pos == std::string::npos) {
+			newBuf << oldBuf;
+		} else {
+			newBuf << oldBuf.substr(0, pos+2);
+		}
+		beginComment = false;
+		return;
+	}
 	while (oldBuf[indent] == '\t') {
 		++indent;
-		newBuf << '\t';
 	}
+	std::string comment;
 	bool addParenthesis = false;
 	std::stringstream sstream(oldBuf);
 	size_t pos = 0;
 	while (sstream) {
 		std::string token;
 		sstream >> token;
+		if (token == "/*") {
+			beginComment = true;
+		}
+		if (token == "//" || token == "/*") {
+			comment = oldBuf.substr(pos);
+			break;
+		}
 		newBuf << oldBuf.substr(pos, static_cast<size_t>(sstream.tellg())-pos);
 		pos = static_cast<size_t>(sstream.tellg());
 		if (token == "include") {
@@ -33,16 +51,17 @@ Line::Line(const std::string& buf) : oldBuf(buf), indent(0), beginScope(false) {
 			addParenthesis = true;
 		}
 	}
-	if (oldBuf.back() == ':') {
+	if (newBuf.str().back() == ':') {
 		newBuf.seekp(-1, std::ios_base::end);
 		if (addParenthesis) {
 			newBuf << ")";
 		}
 		newBuf << " {";
 		beginScope = true;
-	} else if (oldBuf.back() != '}') {
+	} else if (newBuf.str().back() != '}' && !newBuf.str().empty()) {
 		newBuf << ';';
 	}
+	newBuf << comment;
 }
 
 bool Line::isEmpty() const {
@@ -59,4 +78,8 @@ std::string Line::getNewBuf() const {
 
 bool Line::isBeginScope() const {
 	return beginScope;
+}
+
+bool Line::isBeginComment() const {
+	return beginComment;
 }

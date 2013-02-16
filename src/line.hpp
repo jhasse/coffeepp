@@ -5,11 +5,12 @@
 
 class Line {
 public:
-	Line(const std::string& buf);
+	Line(const std::string& buf, bool waitForEndComment);
 	int getIndent() const;
 	std::string getNewBuf() const;
 	bool isEmpty() const;
 	bool isBeginScope() const;
+	bool isBeginComment() const;
 private:
 	/// the line as Coffee++
 	std::string oldBuf;
@@ -21,4 +22,6 @@ private:
 	int indent;
 
 	bool beginScope;
+
+	bool beginComment;
 };

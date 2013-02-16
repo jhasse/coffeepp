@@ -3,7 +3,7 @@ include iostream
 int main():
 	std::cout << "Hallo Welt!" << std::endl
 	if a == 5:
-		b = 3
-	else if a == 2:
+		b = 3 // comment
+/*    else if a == 2:
 		while b < 3 && a == 2:
-			a -= b
+			a -= b*/
