@@ -18,9 +18,6 @@ File::File(const std::string& filename) : indent(0) {
 		while (!waitForEndComment && line->getIndent() > indent) {
 			++indent;
 		}
-		if (waitForEndComment && !line->isBeginComment()) {
-			waitForEndComment = false;
-		}
 		if (line->isBeginComment() || waitForEndComment) {
 			waitForEndComment = true;
 		} else {

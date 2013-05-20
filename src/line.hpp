@@ -18,6 +18,9 @@ private:
 	/// C++
 	std::stringstream newBuf;
 
+	/// comment at the beginning of the line
+	std::string comment;
+
 	/// how much this line is indented
 	int indent;
 

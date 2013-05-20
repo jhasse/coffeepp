@@ -28,6 +28,8 @@ def configure(ctx):
 		ctx.env.INCLUDES_COFFEEPP = ['../boost-libs/include']
 		ctx.env.LIBPATH_COFFEEPP = ['../boost-libs/lib/win']
 		ctx.env.LIB_COFFEEPP = ['boost_program_options-mgw47-mt-1_51']
+	else: # Linux
+		ctx.env.LIB_COFFEEPP = ['boost_program_options']
 
 def build(bld):
 	bld.program(features = 'cxx cxxprogram', source=CPP_SOURCES, target = 'coffee++', use = 'COFFEEPP')

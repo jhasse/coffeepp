@@ -9,12 +9,13 @@ beginComment(waitForEndComment) {
 	if (isEmpty()) {
 		return;
 	}
+	std::cout << waitForEndComment << " buf = " << buf << std::endl;
 	if (waitForEndComment) {
 		auto pos = buf.find("*/");
 		if (pos == std::string::npos) {
 			newBuf << oldBuf;
 		} else {
-			newBuf << oldBuf.substr(0, pos+2);
+			comment = oldBuf.substr(0, pos+2);
 		}
 		beginComment = false;
 		return;
@@ -59,6 +60,7 @@ beginComment(waitForEndComment) {
 		newBuf << " {";
 		beginScope = true;
 	} else if (newBuf.str().back() != '}' && !newBuf.str().empty()) {
+		std::cout << "newBuf: " << newBuf.str() << std::endl;
 		newBuf << ';';
 	}
 	newBuf << comment;
@@ -73,7 +75,7 @@ int Line::getIndent() const {
 }
 
 std::string Line::getNewBuf() const {
-	return newBuf.str();
+	return comment + newBuf.str();
 }
 
 bool Line::isBeginScope() const {
