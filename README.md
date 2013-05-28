@@ -1,3 +1,14 @@
 # Coffee++
 
-work in progress ...
+## Build
+
+```
+./waf configure
+./waf
+```
+
+## Usage
+
+```
+./coffee++ test.cf++
+```
