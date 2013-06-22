@@ -1,6 +1,7 @@
 #include "file.hpp"
 
 #include <iostream>
+#include <fstream>
 #include <boost/program_options.hpp>
 
 int main(int argc, char** argv) {
@@ -30,7 +31,8 @@ int main(int argc, char** argv) {
 		}
 
 		for (const auto& filename : input) {
-			File file(filename);
+			std::ifstream tmp{filename};
+			File file(tmp);
 			std::cout << file.getNewBuf() << std::endl;
 		}
 	} catch(std::exception& e) {

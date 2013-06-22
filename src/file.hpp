@@ -3,12 +3,13 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <istream>
 
 class Line;
 
 class File {
 public:
-	File(const std::string& filename);
+	File(std::istream& in);
 	std::string getNewBuf() const;
 private:
 	void closeScopes(int newIndent);

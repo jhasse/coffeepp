@@ -5,13 +5,12 @@
 #include <fstream>
 #include <iostream>
 
-File::File(const std::string& filename) : indent(0) {
-	std::ifstream fin(filename.c_str());
+File::File(std::istream& in) : indent(0) {
 	bool waitForEndComment = false;
 	while (true) {
 		std::string buf;
-		std::getline(fin, buf);
-		if (!fin) {
+		std::getline(in, buf);
+		if (!in) {
 			break;
 		}
 		auto line = std::make_shared<Line>(buf, waitForEndComment);
@@ -24,7 +23,6 @@ File::File(const std::string& filename) : indent(0) {
 			closeScopes(line->getIndent());
 		}
 		lines.push_back(line);
-		std::cout << indent << std::endl;
 	}
 	closeScopes(0);
 }
