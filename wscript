@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-VERSION = '0.1'
+VERSION = '0.2'
 APPNAME='coffee++'
 top = '.'
 out = '.'
 
-CPP_SOURCES = ['src/file.cpp', 'src/line.cpp']
+CPP_SOURCES = ['src/file.cpp', 'src/line.cpp', 'src/tokenizer.cpp']
 
 from waflib.Tools.compiler_cxx import cxx_compiler
 cxx_compiler['win32'] = ['g++']
@@ -38,7 +38,7 @@ def build(bld):
 	            target = 'coffee++',
 	            use = 'COFFEEPP')
 	bld.program(features='test',
-	            source=CPP_SOURCES + ['unit_test/comments.cpp'],
+	            source=CPP_SOURCES + ['unit_test/comments.cpp', 'unit_test/tokenizer.cpp'],
 	            target='unit_test/unit_test',
 	            use='COFFEEPP UNIT_TEST')
 	from waflib.Tools import waf_unit_test

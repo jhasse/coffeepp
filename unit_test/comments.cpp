@@ -30,12 +30,13 @@ R"(int main():
 	auto a = 5 // setting a
 	/* if while for */int b = 3//setting b
 	if/**/ a==3/*ignore*/://x:
-		/*something*/)",
+		int b = 3  /*something*/)",
 R"(int main() {
 	auto a = 5; // setting a
 	/* if while for */int b = 3;//setting b
-	if/**/ (a==3)/*ignore*/ {//x:
-		/*something*/
+	if/**/ (a==3/*ignore*/) {//x:
+		int b = 3;  /*something*/
 	}
-})");
+}
+)");
 }

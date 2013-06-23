@@ -1,5 +1,7 @@
 #include "line.hpp"
 
+#include "tokenizer.hpp"
+
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
@@ -21,26 +23,24 @@ beginComment(waitForEndComment) {
 	}
 	std::string comment;
 	bool addParenthesis = false;
-	std::stringstream sstream(oldBuf);
+	Tokenizer tokenizer(oldBuf);
 	size_t pos = 0;
 	bool emptyLine = true;
-	while (sstream) {
-		std::string token;
-		sstream >> token;
-		if (token.empty()) {
-			continue;
-		}
+	std::string token;
+	std::string spaceBuf;
+	std::string insertAfterSpace;
+	while (!(token = tokenizer.getNextToken()).empty()) {
 		if (token == "/*") {
 			// Search for the end
-			auto endPos = oldBuf.find("*/", static_cast<size_t>(sstream.tellg()));
+			auto endPos = oldBuf.find("*/", tokenizer.getPos());
 			if (endPos == std::string::npos) {
 				beginComment = true;
 				comment = oldBuf.substr(pos);
 				break;
 			} else {
-				newBuf << oldBuf.substr(pos, endPos + 2 - pos);
+				spaceBuf += oldBuf.substr(pos, endPos + 2 - pos);
 				pos = endPos + 2;
-				sstream.seekg(pos);
+				tokenizer.setPos(pos);
 				continue;
 			}
 		}
@@ -48,20 +48,30 @@ beginComment(waitForEndComment) {
 			comment = oldBuf.substr(pos);
 			break;
 		}
-		emptyLine = false;
-		newBuf << oldBuf.substr(pos, static_cast<size_t>(sstream.tellg())-pos);
-		pos = static_cast<size_t>(sstream.tellg());
-		if (token == "include") {
-			std::string file;
-			sstream >> file;
-			newBuf.seekp(0);
-			newBuf << "#include <" << file << ">";
-			return;
-		} else if (token == "if" || token == "for" || token == "while") {
-			newBuf << " (";
-			sstream.ignore(1);
-			++pos;
-			addParenthesis = true;
+		if (emptyLine && token != " " && token != "\t") {
+			emptyLine = false;
+		}
+		pos = tokenizer.getPos();
+		if (token == " " || token == "\t") {
+			spaceBuf += token;
+		} else {
+			if (!spaceBuf.empty()) {
+				spaceBuf += insertAfterSpace;
+				insertAfterSpace = "";
+			}
+			newBuf << spaceBuf << token;
+			spaceBuf = "";
+			if (token == "include") {
+				std::string file;
+				tokenizer.getNextToken(); // space
+				file = tokenizer.getNextToken();
+				newBuf.seekp(0);
+				newBuf << "#include <" << file << ">";
+				return;
+			} else if (token == "if" || token == "for" || token == "while") {
+				insertAfterSpace = "(";
+				addParenthesis = true;
+			}
 		}
 	}
 	if (newBuf.str().back() == ':') {
@@ -80,7 +90,7 @@ beginComment(waitForEndComment) {
 	while (oldBuf[indent] == '\t') {
 		++indent;
 	}
-	newBuf << comment;
+	newBuf << spaceBuf << comment;
 }
 
 bool Line::isEmpty() const {
