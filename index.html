@@ -27,32 +27,32 @@
 			<p>source file <i>Test.cf++</i></p>
 			<pre class="prettyprint">include iostream
 
-class Test:
-	public new():
-		bar = 123
-	public void foo():
-		std::cout &lt;&lt; "Coffee++!\n"
-	private int bar
-
 int main():
-	int a = 5
-	if a != 7:
-		Test test
-		test.foo()</pre>
+	age := 5
+	dog := Dog(age)
+	if age != 7:
+		dog.bark()
+
+class Dog:
+	public Dog(int age):
+		this->age := age
+	public void bark():
+		std::cout &lt;&lt; "Woof!\n"
+	private int age</pre>
 		</div>
 		<div class="span4">
 			<p>compiled <i>Test.hpp</i></p>
 			<pre class="prettyprint">#pragma once
 
-class Test {
-public:
-	Test();
-	void foo();
-private:
-	int bar;
-};
+int main();
 
-int main();</pre>
+class Dog {
+public:
+	Dog();
+	void bark();
+private:
+	int age;
+};</pre>
 		</div>
 		<div class="span4">
 			<p>compiled <i>Test.cpp</i></p>
@@ -60,19 +60,19 @@ int main();</pre>
 
 #include &lt;iostream&gt;
 
-Test::Test() : bar(123) {
-}
-
-void Test::foo() {
-	std::cout &lt;&lt; "Coffee++!\n";
-}
-
 int main() {
-	int a = 5;
-	if (a != 7) {
-		Test test;
-		test.foo();
+	auto age = 5;
+	auto dog = Dog(age);
+	if (age != 7) {
+		dog.bark();
 	}
+}
+
+Dog::Dog(int age) : age(age) {
+}
+
+void Dog::bark() {
+	std::cout &lt;&lt; "Woof!\n";
 }</pre>
 		</div>
 	</div>
@@ -95,6 +95,38 @@ Template for code examples:
 </div>
 -->
 <h2>Language Reference</h2>
+<h3>If, Else, For and While</h3>
+<p>You can leave out the brackets, otherwise there's no difference.
+<div class="row">
+	<div class="span6">
+		<p>main.cf++</p>
+		<pre class="prettyprint">for i := 0; i &lt; 5; ++i:
+	if i == 2 || i == 4:
+		continue
+	else:
+		std::cout &lt;&lt; i &lt;&lt; std::endl
+
+i := 10
+do:
+	i -= 2
+while i != 0</pre>
+	</div>
+	<div class="span6">
+		<p>main.cpp</p>
+		<pre class="prettyprint">for (auto i = 0; i &lt; 5; ++i) {
+	if (i == 2 || i == 4) {
+		continue;
+	} else {
+		std::cout &lt;&lt; i &lt;&lt; std::endl;
+	}
+}
+
+auto i = 10;
+do {
+	i -= 2;
+} while (i != 0);</pre>
+	</div>
+</div>
 <h3>Include</h3>
 <p>To include a library you can use the <b>include</b> statement:</p>
 <div class="row">

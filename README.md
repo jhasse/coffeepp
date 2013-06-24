@@ -1,3 +1,0 @@
-# Coffee++
-
-work in progress ...
