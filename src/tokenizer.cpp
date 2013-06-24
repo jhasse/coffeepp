@@ -43,6 +43,14 @@ std::string Tokenizer::getNextToken() {
 	}
 }
 
+std::string Tokenizer::getNextWord() {
+	std::string t;
+	do {
+		t = getNextToken();
+	} while ((t == " " || t == "\t") && t != "");
+	return t;
+}
+
 size_t Tokenizer::getPos() const {
 	return pos;
 }

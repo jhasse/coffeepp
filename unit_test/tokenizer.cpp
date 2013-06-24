@@ -1,9 +1,12 @@
 #include "../src/tokenizer.hpp"
 
+
+#define BOOST_TEST_MODULE CoffeeppTest
 #include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_CASE(TokenizerTest) {
-	Tokenizer t("Hello World\tthis/*is*/the//end");
+	std::string text = "Hello World\tthis/*is*/the//end\t  word ";
+	Tokenizer t(text);
 	BOOST_CHECK_EQUAL(t.getNextToken(), "Hello");
 	BOOST_CHECK_EQUAL(t.getNextToken(), " ");
 	BOOST_CHECK_EQUAL(t.getNextToken(), "World");
@@ -18,5 +21,7 @@ BOOST_AUTO_TEST_CASE(TokenizerTest) {
 	BOOST_CHECK_EQUAL(t.getNextToken(), "the");
 	BOOST_CHECK_EQUAL(t.getNextToken(), "//");
 	BOOST_CHECK_EQUAL(t.getNextToken(), "end");
+	BOOST_CHECK_EQUAL(t.getNextWord(), "word");
+	BOOST_CHECK_EQUAL(t.getNextWord(), "");
 	BOOST_CHECK_EQUAL(t.getNextToken(), "");
 }

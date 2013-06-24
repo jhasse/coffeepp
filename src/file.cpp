@@ -31,7 +31,14 @@ std::string File::getNewBuf() const {
 	std::string buf;
 	for (const auto& line : lines) {
 		buf += line->getNewBuf();
-		buf += '\n';
+	}
+	return buf;
+}
+
+std::string File::getHeaderBuf() const {
+	std::string buf;
+	for (const auto& line : lines) {
+		buf += line->getHeaderBuf();
 	}
 	return buf;
 }

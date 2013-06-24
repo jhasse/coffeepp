@@ -9,6 +9,7 @@ Line::Line(const std::string& buf, bool waitForEndComment) : oldBuf(buf), indent
 beginComment(waitForEndComment) {
 	boost::trim_right(oldBuf);
 	if (isEmpty()) {
+		newBuf << "\n";
 		return;
 	}
 	if (waitForEndComment) {
@@ -16,7 +17,7 @@ beginComment(waitForEndComment) {
 		if (pos == std::string::npos) {
 			newBuf << oldBuf;
 		} else {
-			comment = oldBuf.substr(0, pos+2);
+			commentAtBeginning = oldBuf.substr(0, pos+2);
 		}
 		beginComment = false;
 		return;
@@ -61,12 +62,27 @@ beginComment(waitForEndComment) {
 			}
 			newBuf << spaceBuf << token;
 			spaceBuf = "";
-			if (token == "include") {
-				std::string file;
-				tokenizer.getNextToken(); // space
-				file = tokenizer.getNextToken();
-				newBuf.seekp(0);
-				newBuf << "#include <" << file << ">";
+			if (token == "include" || token == "import") {
+				auto file = tokenizer.getNextWord();
+				auto param = tokenizer.getNextWord();
+				std::stringstream* stream = &newBuf;
+				if (param == "header") {
+					stream = &headerBuf;
+					newBuf.str("");
+				} else if (param == "forward") {
+					headerBuf << "class " << file << ";\n";
+				}
+				stream->seekp(0);
+				if (token == "include") {
+					*stream << "#include <" << file << ">";
+				} else {
+					if (file.find('.') == std::string::npos) {
+						*stream << "#include \"" << file << ".hpp\"";
+					} else {
+						*stream << "#include \"" << file << "\"";
+					}
+				}
+				*stream << "\n";
 				return;
 			} else if (token == "if" || token == "for" || token == "while") {
 				insertAfterSpace = "(";
@@ -90,7 +106,7 @@ beginComment(waitForEndComment) {
 	while (oldBuf[indent] == '\t') {
 		++indent;
 	}
-	newBuf << spaceBuf << comment;
+	newBuf << spaceBuf << comment << "\n";
 }
 
 bool Line::isEmpty() const {
@@ -102,7 +118,11 @@ int Line::getIndent() const {
 }
 
 std::string Line::getNewBuf() const {
-	return comment + newBuf.str();
+	return commentAtBeginning + newBuf.str();
+}
+
+std::string Line::getHeaderBuf() const {
+	return headerBuf.str();
 }
 
 bool Line::isBeginScope() const {

@@ -9,6 +9,9 @@ public:
 	/// returns an empty string when the end of the line has been reached
 	std::string getNextToken();
 
+	/// ignores whitespace
+	std::string getNextWord();
+
 	size_t getPos() const;
 	void setPos(size_t);
 private:

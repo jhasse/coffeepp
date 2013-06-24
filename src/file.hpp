@@ -11,6 +11,7 @@ class File {
 public:
 	File(std::istream& in);
 	std::string getNewBuf() const;
+	std::string getHeaderBuf() const;
 private:
 	void closeScopes(int newIndent);
 
