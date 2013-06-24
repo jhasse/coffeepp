@@ -56,7 +56,7 @@ private:
 		</div>
 		<div class="span4">
 			<p>compiled <i>Test.cpp</i></p>
-			<pre class="prettyprint">#include "test.h"
+			<pre class="prettyprint">#include "test.hpp"
 
 #include &lt;iostream&gt;
 
@@ -96,7 +96,7 @@ Template for code examples:
 -->
 <h2>Language Reference</h2>
 <h3>If, Else, For and While</h3>
-<p>You can leave out the brackets, otherwise there's no difference.
+<p>You can leave out the brackets, otherwise there's no difference to C++.
 <div class="row">
 	<div class="span6">
 		<p>main.cf++</p>
@@ -137,7 +137,9 @@ include boost/array.hpp header</pre>
 	</div>
 	<div class="span4">
 		<p><i>Example.hpp</i></p>
-		<pre class="prettyprint">#include &lt;boost/array.hpp&gt;</pre>
+		<pre class="prettyprint">#pragma once
+
+#include &lt;boost/array.hpp&gt;</pre>
 	</div>
 	<div class="span4">
 		<p><i>Example.cpp</i></p>
@@ -160,7 +162,9 @@ import Test header</pre>
 	</div>
 	<div class="span4">
 		<p><i>Example.hpp</i></p>
-		<pre class="prettyprint">#include "Test.hpp"
+		<pre class="prettyprint">#pragma once
+
+#include "Test.hpp"
 
 class Bar;</pre>
 	</div>
