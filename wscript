@@ -3,7 +3,7 @@
 VERSION = '0.2'
 APPNAME='coffee++'
 top = '.'
-out = '.'
+out = 'build'
 
 CPP_SOURCES = ['src/file.cpp', 'src/line.cpp', 'src/tokenizer.cpp']
 
@@ -26,7 +26,7 @@ def configure(ctx):
 		ctx.env.LIBPATH_COFFEEPP = ['../lib/mac']
 	elif sys.platform == 'win32':
 		ctx.env.INCLUDES_COFFEEPP = ['../boost-libs/include']
-		ctx.env.LIBPATH_COFFEEPP = ['../boost-libs/lib/win']
+		ctx.env.LIBPATH_COFFEEPP = ['../../boost-libs/lib/win']
 		ctx.env.LIB_COFFEEPP = ['boost_program_options-mgw47-mt-1_51']
 		ctx.env.LIB_UNIT_TEST = ['boost_unit_test_framework-mgw47-mt-1_51']
 	else: # Linux
@@ -38,8 +38,8 @@ def build(bld):
 	            target = 'coffee++',
 	            use = 'COFFEEPP')
 	bld.program(features='test',
-	            source=CPP_SOURCES + ['unit_test/comments.cpp', 'unit_test/tokenizer.cpp'],
-	            target='unit_test/unit_test',
+	            source=CPP_SOURCES + bld.path.ant_glob('unit_test/*.cpp'),
+	            target='unit_test',
 	            use='COFFEEPP UNIT_TEST')
 	from waflib.Tools import waf_unit_test
 	bld.add_post_fun(waf_unit_test.summary)
