@@ -81,25 +81,59 @@ Template for code examples:
 
 <div class="row">
 	<div class="span4">
-		<p>.cf++</p>
+		<p><i>Example.cf++</i></p>
 		<pre class="prettyprint"></pre>
 	</div>
 	<div class="span4">
-		<p>.hpp</p>
+		<p><i>Example.hpp</i></p>
 		<pre class="prettyprint"></pre>
 	</div>
 	<div class="span4">
-		<p>.cpp</p>
+		<p><i>Example.cpp</i></p>
 		<pre class="prettyprint"></pre>
 	</div>
 </div>
 -->
 <h2>Language Reference</h2>
+<h3>Indentation and Functions</h3>
+<p>
+	Coffee++ uses significant whitespace. Choose tabs or a specific number of spaces and stick to your choice throughout
+	your file.
+</p>
+<p>
+	Functions are definied by appending a : at the end of the line.
+</p>
+<div class="row">
+	<div class="span4">
+		<p><i>Example.cf++</i></p>
+		<pre class="prettyprint">int main(int argc, char** argv):
+	return 1
+
+void foo():
+	return</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.hpp</i></p>
+		<pre class="prettyprint">int main(int argc, char** argv);
+
+void foo();</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.cpp</i></p>
+		<pre class="prettyprint">int main(int argc, char** argv) {
+	return 1;
+}
+
+void foo() {
+	return;
+}</pre>
+	</div>
+</div>
 <h3>If, Else, For and While</h3>
 <p>You can leave out the brackets, otherwise there's no difference to C++.
 <div class="row">
 	<div class="span6">
-		<p>main.cf++</p>
+		<p><i>Example.cf++</i></p>
 		<pre class="prettyprint">for i := 0; i &lt; 5; ++i:
 	if i == 2 || i == 4:
 		continue
@@ -112,7 +146,7 @@ do:
 while i != 0</pre>
 	</div>
 	<div class="span6">
-		<p>main.cpp</p>
+		<p><i>Example.cpp</i></p>
 		<pre class="prettyprint">for (auto i = 0; i &lt; 5; ++i) {
 	if (i == 2 || i == 4) {
 		continue;
@@ -128,7 +162,8 @@ do {
 	</div>
 </div>
 <h3>Include</h3>
-<p>To include a library you can use the <b>include</b> statement:</p>
+<p>To include a library you can use the <b>include</b> statement, append <b>header</b> to only include it inside the
+header file:</p>
 <div class="row">
 	<div class="span4">
 		<p><i>Example.cf++</i></p>
