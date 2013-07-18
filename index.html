@@ -19,7 +19,7 @@
 	</p>
 	<p>
 		The golden rule of Coffee++ is: "It's just C++". The code compiles one-to-one into the equivalent C++, and there
-		is no interpretation at runtime. You can use any existing C++ library seamlessly from Coffee++ (and vice-versa).
+		is no runtime library. You can use any existing C++ library seamlessly from Coffee++ (and vice-versa).
 	</p>
 	<h2>Overview</h2>
 	<div class="row">
@@ -130,7 +130,8 @@ void foo() {
 	</div>
 </div>
 <h3>If, Else, For and While</h3>
-<p>You can leave out the brackets, otherwise there's no difference to C++.
+<p>You can leave out the brackets, otherwise there's no difference to C++. The <code>:=</code> operator autmatically
+declares variables using <code>auto</code>.</p>
 <div class="row">
 	<div class="span6">
 		<p><i>Example.cf++</i></p>
@@ -162,7 +163,7 @@ do {
 	</div>
 </div>
 <h3>Include</h3>
-<p>To include a library you can use the <b>include</b> statement, append <b>header</b> to only include it inside the
+<p>To include a library you can use the <code>include</code> statement, append <code>header</code> to only include it inside the
 header file:</p>
 <div class="row">
 	<div class="span4">
@@ -184,7 +185,7 @@ include boost/array.hpp header</pre>
 	</div>
 </div>
 <p>
-	If you want to include a local file use <b>import</b>. Appending <b>forward</b> will also forward declare the class
+	If you want to include a local file use <code>import</code>. Appending <code>forward</code> will also forward declare the class
 	with the same name as the file:
 </p>
 <div class="row">
@@ -210,6 +211,41 @@ class Bar;</pre>
 #include "legacy.h"
 #include "Foo.hpp"
 #include "Bar.hpp"</pre>
+	</div>
+</div>
+<h3>Member Initialization</h3>
+<p>Too initialize a member use <code>this-&gt;</code> and the <code>:=</code> operator. Unlike in C++, members are not
+initilized in order of their declaration, but in order of initialization.</p>
+<div class="row">
+	<div class="span4">
+		<p><i>Example.cf++</i></p>
+		<pre class="prettyprint">class Example:
+	public Example(int counter):
+		this->a := ++counter;
+		this->b := ++counter;
+	private int b
+	private int a</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.hpp</i></p>
+		<pre class="prettyprint">#pragma once
+
+class Example {
+public:
+	Example(int counter);
+private:
+	int a;
+	int b;
+};</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.cpp</i></p>
+		<pre class="prettyprint">#include "Example.hpp"
+
+Example::Example(int counter) :
+a(++counter),
+b(++counter) {
+}</pre>
 	</div>
 </div>
 </div>

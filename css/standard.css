@@ -21,3 +21,6 @@ pre {
 	-o-tab-size: 4;
 	-moz-tab-size: 4;
 }
+code {
+	color: #000;
+}
