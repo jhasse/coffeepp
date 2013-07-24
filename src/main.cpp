@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
 
 		for (const auto& filename : input) {
 			std::ifstream tmp{filename};
-			File file(tmp);
+			File file(tmp, filename);
 			std::cout << file.getNewBuf() << std::endl;
 		}
 	} catch(std::exception& e) {

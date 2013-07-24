@@ -9,7 +9,7 @@ class Line;
 
 class File {
 public:
-	File(std::istream& in);
+	File(std::istream& in, const std::string& name);
 	std::string getNewBuf() const;
 	std::string getHeaderBuf() const;
 private:
@@ -17,4 +17,5 @@ private:
 
 	std::vector<std::shared_ptr<Line>> lines;
 	int indent;
+	std::string name;
 };

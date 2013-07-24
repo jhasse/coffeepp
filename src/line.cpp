@@ -24,6 +24,7 @@ beginComment(waitForEndComment) {
 	}
 	std::string comment;
 	bool addParenthesis = false;
+	bool isFunction = true;
 	Tokenizer tokenizer(oldBuf);
 	size_t pos = 0;
 	bool emptyLine = true;
@@ -85,6 +86,7 @@ beginComment(waitForEndComment) {
 				*stream << "\n";
 				return;
 			} else if (token == "if" || token == "for" || token == "while") {
+				isFunction = false;
 				insertAfterSpace = "(";
 				addParenthesis = true;
 			}
@@ -92,6 +94,12 @@ beginComment(waitForEndComment) {
 	}
 	if (newBuf.str().back() == ':') {
 		newBuf.seekp(-1, std::ios_base::end);
+		if (isFunction) {
+			// add declaration to header file
+			newBuf << ";"; // overwrites ":"
+			headerBuf << newBuf.str() << "\n";
+			newBuf.seekp(-1, std::ios_base::end);
+		}
 		if (addParenthesis) {
 			newBuf << ")";
 		}

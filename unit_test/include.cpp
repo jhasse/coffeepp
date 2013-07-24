@@ -1,25 +1,29 @@
 #include "check.hpp"
 
 BOOST_AUTO_TEST_CASE(IncludeTest) {
-	checkCompiler(R"(
-include iostream
+	checkCompiler("Basic.cf++", R"(include iostream
 import legacy.h
 import Foo
 import Bar header
 import FooBar forward
-)", R"(
+)", R"(#pragma once
+
+#include "Bar.hpp"
+class FooBar;
+)", R"(#include "Basic.hpp"
+
 #include <iostream>
 #include "legacy.h"
 #include "Foo.hpp"
 #include "FooBar.hpp"
-)", R"(#include "Bar.hpp"
-class FooBar;
 )");
 
 	// ignore whitespace
-	checkCompiler(R"(
-include  	  asd
-)", R"(
+	checkCompiler("Whitespace.cf++", R"(include  	  asd
+)", R"(#pragma once
+
+)", R"(#include "Whitespace.hpp"
+
 #include <asd>
 )");
 }

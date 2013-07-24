@@ -4,4 +4,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-void checkCompiler(const std::string& cfpp, const std::string& cpp, const std::string& hpp = "");
+void checkCompiler(const std::string& filename,
+                   const std::string& cfpp,
+                   const std::string& hpp,
+                   const std::string& cpp);

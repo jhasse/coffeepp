@@ -1,14 +1,15 @@
 #include "check.hpp"
 
 BOOST_AUTO_TEST_CASE(CommentsTest) {
-	checkCompiler(
-R"(
-int main():
+	checkCompiler("Test.cf++", R"(int main():
 	// if a == 3:
 	if b == 4:
 		return 0 // exit
-)",
-R"(
+)", R"(#pragma once
+
+int main();
+)", R"(#include "Test.hpp"
+
 int main() {
 	// if a == 3:
 	if (b == 4) {
@@ -16,22 +17,28 @@ int main() {
 	}
 }
 )");
-	checkCompiler(
-R"(
-// int main():
+	checkCompiler("Test.cf++",
+R"(// int main():
 	/* if donothing: */
-)",
-R"(
+)", R"(#pragma once
+
+)", R"(#include "Test.hpp"
+
 // int main():
 	/* if donothing: */
 )");
-	checkCompiler(
+	checkCompiler("Test.cf++",
 R"(int main():
 	auto a = 5 // setting a
 	/* if while for */int b = 3//setting b
 	if/**/ a==3/*ignore*/://x:
 		int b = 3  /*something*/)",
-R"(int main() {
+R"(#pragma once
+
+int main();
+)", R"(#include "Test.hpp"
+
+int main() {
 	auto a = 5; // setting a
 	/* if while for */int b = 3;//setting b
 	if/**/ (a==3/*ignore*/) {//x:
