@@ -8,6 +8,7 @@
 	<link href="css/standard.css" rel="stylesheet"/>
 	<link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
 	<link href="css/prettify.css" rel="stylesheet"/>
+	<link rel="shortcut icon" href="favicon.ico" />
 </head>
 <body onload="prettyPrint()">
 	<div class="container">
@@ -213,6 +214,47 @@ class Bar;</pre>
 #include "legacy.h"
 #include "Foo.hpp"
 #include "Bar.hpp"</pre>
+	</div>
+</div>
+<h3>Classes</h3>
+<p>
+Classes are definied as in C++ with the difference that <code>public</code>, <code>protected</code> and
+<code>private</code> must be written before every function (similar to Java).</p>
+<div class="row">
+	<div class="span4">
+		<p><i>Example.cf++</i></p>
+		<pre class="prettyprint">class Example:
+	private int a
+
+	public void foo():
+		return
+
+	private static int b = 7
+	protected int c</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.hpp</i></p>
+		<pre class="prettyprint">#pragma once
+
+class Example {
+public:
+	void foo();
+protected:
+	int c;
+private:
+	int a;
+	int b;
+};</pre>
+	</div>
+	<div class="span4">
+		<p><i>Example.cpp</i></p>
+		<pre class="prettyprint">#include "Example.hpp"
+
+void Example::foo() {
+	return;
+}
+
+int Example::b = 7;</pre>
 	</div>
 </div>
 <h3>Member Initialization</h3>
