@@ -27,8 +27,8 @@ def configure(ctx):
 	elif sys.platform == 'win32':
 		ctx.env.INCLUDES_COFFEEPP = ['../boost-libs/include']
 		ctx.env.LIBPATH_COFFEEPP = ['../../boost-libs/lib/win']
-		ctx.env.LIB_COFFEEPP = ['boost_program_options-mgw47-mt-1_51']
-		ctx.env.LIB_UNIT_TEST = ['boost_unit_test_framework-mgw47-mt-1_51']
+		ctx.env.LIB_COFFEEPP = ['boost_program_options-mgw47-mt-1_54']
+		ctx.env.LIB_UNIT_TEST = ['boost_unit_test_framework-mgw47-mt-1_54']
 	else: # Linux
 		ctx.env.LIB_COFFEEPP = ['boost_program_options']
 

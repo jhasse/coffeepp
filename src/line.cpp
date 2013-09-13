@@ -25,6 +25,7 @@ beginComment(waitForEndComment) {
 	std::string comment;
 	bool addParenthesis = false;
 	bool isFunction = true;
+	bool isFor = false;
 	Tokenizer tokenizer(oldBuf);
 	size_t pos = 0;
 	bool emptyLine = true;
@@ -61,6 +62,33 @@ beginComment(waitForEndComment) {
 				spaceBuf += insertAfterSpace;
 				insertAfterSpace = "";
 			}
+			if (isFor && token == "in") {
+				token = ":";
+			}
+			if (token == ":=") {
+				// Prepend auto:
+				newBuf.seekg(-2, std::ios_base::end);
+				std::vector<char> delims{' ', '\t', '('};
+				bool finished = false;
+				while (newBuf) {
+					for (size_t i = 0; i < delims.size(); ++i) {
+						if (static_cast<char>(newBuf.get()) == delims[i]) {
+							finished = true;
+							break;
+						}
+						newBuf.unget();
+					}
+					if (finished) {
+						break;
+					}
+					newBuf.seekg(-1, std::ios_base::cur);
+				}
+				auto oldLength = newBuf.tellp();
+				newBuf.seekp(newBuf.tellg());
+				auto tmp = newBuf.str().substr(newBuf.tellg(), oldLength - newBuf.tellp());
+				newBuf << "auto " << tmp;
+				token = "=";
+			}
 			newBuf << spaceBuf << token;
 			spaceBuf = "";
 			if (token == "include" || token == "import") {
@@ -89,6 +117,9 @@ beginComment(waitForEndComment) {
 				isFunction = false;
 				insertAfterSpace = "(";
 				addParenthesis = true;
+				if (token == "for") {
+					isFor = true;
+				}
 			}
 		}
 	}
@@ -105,7 +136,7 @@ beginComment(waitForEndComment) {
 		}
 		newBuf << " {";
 		beginScope = true;
-	} else if (newBuf.str().back() != '}' && !emptyLine) {
+	} else if (boost::trim_copy(buf) != "}" && !emptyLine) {
 		newBuf << ';';
 	}
 	if (emptyLine) {
