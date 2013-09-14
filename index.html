@@ -133,8 +133,9 @@ void foo() {
 	</div>
 </div>
 <h3>If, Else, For and While</h3>
-<p>You can leave out the brackets, otherwise there's no difference to C++. The <code>:=</code> operator automatically
-declares variables using <code>auto</code>.</p>
+<p>You can leave out the brackets and range-based for uses <code>in</code> instead of <code>:</code>. Otherwise there's no
+difference to C++.</p>
+<p>The <code>:=</code> operator automatically declares variables using <code>auto</code>.</p>
 <div class="row">
 	<div class="span6">
 		<p><i>Example.cf++</i></p>
@@ -147,7 +148,11 @@ declares variables using <code>auto</code>.</p>
 i := 10
 do:
 	i -= 2
-while i != 0</pre>
+while i != 0
+
+numbers := std::vector&lt;int&gt;{1, 2, 3}
+for int&amp; number in numbers:
+	++number</pre>
 	</div>
 	<div class="span6">
 		<p><i>Example.cpp</i></p>
@@ -162,7 +167,12 @@ while i != 0</pre>
 auto i = 10;
 do {
 	i -= 2;
-} while (i != 0);</pre>
+} while (i != 0);
+
+auto numbers = std::vector&lt;int&gt;{1, 2, 3};
+for (int&amp; number : numbers) {
+	++number;
+}</pre>
 	</div>
 </div>
 <h3>Include</h3>
