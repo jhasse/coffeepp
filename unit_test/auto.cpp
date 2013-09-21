@@ -8,6 +8,7 @@ BOOST_AUTO_TEST_CASE(AutoTest) {
 		b -= a
 )", R"(#pragma once
 
+int main();
 )", R"(#include "Auto.hpp"
 
 int main() {
