@@ -19,5 +19,5 @@ pacman -S python mingw-w64-x86_64-gcc mingw-w64-x86_64-boost
 ## Usage
 
 ```
-./coffee++ test.cf++
+./build/coffee++ test.cf++
 ```

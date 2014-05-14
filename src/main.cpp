@@ -30,6 +30,11 @@ int main(int argc, char** argv) {
 			return 1;
 		}
 
+		if (input.empty()) {
+			std::cout << "coffee++: no input files" << std::endl;
+			return 1;
+		}
+
 		for (const auto& filename : input) {
 			std::ifstream tmp{filename};
 			File file(tmp, filename);
