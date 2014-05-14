@@ -1,6 +1,6 @@
 #include "../src/tokenizer.hpp"
 
-
+#define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE CoffeeppTest
 #include <boost/test/unit_test.hpp>
 
