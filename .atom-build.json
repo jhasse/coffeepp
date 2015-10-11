@@ -1,0 +1,11 @@
+{
+  "cmd": "tup && ./build/bin/coffee++ test.cf++",
+  "sh": true,
+  "errorMatch": "(?<file>[^: \\n]+):(?<line>\\d+):(?<col>\\d+): ",
+  "targets": {
+    "Unit Tests": {
+      "cmd": "tup && ./build/bin/unit_test",
+      "errorMatch": "(?<file>[^: \\n]+):(?<line>\\d+):(?<col>\\d+): "
+    }
+  }
+}

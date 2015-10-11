@@ -2,3 +2,4 @@ build/
 .lock-waf*
 waf3-*
 *.sublime-workspace
+.tup/

@@ -1,0 +1,13 @@
+CXX = c++
+CXXFLAGS = -std=c++11
+
+ifeq (@(RELEASE), y)
+    CXXFLAGS += -O2
+else
+    CXXFLAGS += -g -Wall -Wextra
+endif
+
+: foreach src/*.cpp |> $(CXX) $(CXXFLAGS) -c %f -o %o |> build/%B.o {objs}
+: foreach unit_test/*.cpp |> $(CXX) $(CXXFLAGS) -c %f -o %o |> build/debug/unit_test/%B.o {objs_unit_test}
+: {objs} |> $(CXX) %f -lboost_program_options -o %o |> build/bin/coffee++
+: {objs_unit_test} build/tokenizer.o build/file.o build/line.o |> $(CXX) %f -lboost_program_options -lboost_unit_test_framework -o %o |> build/bin/unit_test
