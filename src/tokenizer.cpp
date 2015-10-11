@@ -1,6 +1,7 @@
 #include "tokenizer.hpp"
 
 #include <iostream>
+#include <array>
 
 Tokenizer::Tokenizer(const std::string& buf) : buf(buf) {
 }
@@ -12,13 +13,14 @@ char Tokenizer::charAt(size_t p) {
 	return buf[p];
 }
 
+const std::array<std::string, 6> delimiters = {{
+	" ", "\t", "//", "/*", "*/", ","
+}};
+
 std::string Tokenizer::getNextToken() {
 	if (pos >= buf.size()) {
 		return "";
 	}
-	std::string delimiters[] = {
-		" ", "\t", "//", "/*", "*/"
-	};
 	std::string token;
 	while (true) {
 		for (auto delim : delimiters) {
@@ -49,6 +51,25 @@ std::string Tokenizer::getNextWord() {
 		t = getNextToken();
 	} while ((t == " " || t == "\t") && t != "");
 	return t;
+}
+
+std::string Tokenizer::peakNextSignificantToken() {
+	auto oldPos = pos;
+	std::string token;
+	while((token = getNextToken()) != "") {
+		bool found = false;
+		for (const auto& d : delimiters) {
+			if (d == token) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			break;
+		}
+	}
+	pos = oldPos;
+	return token;
 }
 
 size_t Tokenizer::getPos() const {

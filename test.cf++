@@ -1,6 +1,10 @@
 include iostream
 
+void foo(int a, int b, int c):
+	return
+
 int main():
+	foo(1, 2, 3,)
 	std::cout << "Hallo Welt!" << std::endl
 	if a == 5:
 		b = 3 // comment

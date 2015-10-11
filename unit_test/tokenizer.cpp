@@ -24,4 +24,13 @@ BOOST_AUTO_TEST_CASE(TokenizerTest) {
 	BOOST_CHECK_EQUAL(t.getNextWord(), "word");
 	BOOST_CHECK_EQUAL(t.getNextWord(), "");
 	BOOST_CHECK_EQUAL(t.getNextToken(), "");
+	text = "foo(bar,  )";
+	Tokenizer t2(text);
+	BOOST_CHECK_EQUAL(t2.getNextToken(), "foo(bar");
+	BOOST_CHECK_EQUAL(t2.getNextToken(), ",");
+	BOOST_CHECK_EQUAL(t2.peakNextSignificantToken(), ")");
+	BOOST_CHECK_EQUAL(t2.getNextToken(), " ");
+	BOOST_CHECK_EQUAL(t2.getNextToken(), " ");
+	BOOST_CHECK_EQUAL(t2.getNextToken(), ")");
+	BOOST_CHECK_EQUAL(t2.getNextToken(), "");
 }

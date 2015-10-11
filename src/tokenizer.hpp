@@ -12,6 +12,9 @@ public:
 	/// ignores whitespace
 	std::string getNextWord();
 
+	/// returns the next token which isn't a delimiter (TODO: or inside a comment)
+	std::string peakNextSignificantToken();
+
 	size_t getPos() const;
 	void setPos(size_t);
 private:

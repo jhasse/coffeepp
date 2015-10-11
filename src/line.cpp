@@ -33,6 +33,12 @@ beginComment(waitForEndComment) {
 	std::string spaceBuf;
 	std::string insertAfterSpace;
 	while (!(token = tokenizer.getNextToken()).empty()) {
+		if (token == ",") {
+			const auto next = tokenizer.peakNextSignificantToken();
+			if (next == ")" || next == "}" || next == ">") {
+				continue;
+			}
+		}
 		if (token == "/*") {
 			// Search for the end
 			auto endPos = oldBuf.find("*/", tokenizer.getPos());
