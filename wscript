@@ -29,6 +29,7 @@ def configure(ctx):
 		ctx.env.LIB_UNIT_TEST = ['boost_unit_test_framework-mt']
 	else: # Linux
 		ctx.env.LIB_COFFEEPP = ['boost_program_options']
+		ctx.env.LIB_UNIT_TEST = ['boost_unit_test_framework']
 
 def build(bld):
 	bld.program(features='cxx cxxprogram',
@@ -37,7 +38,7 @@ def build(bld):
 	            use = 'COFFEEPP')
 	bld.program(features='test',
 	            source=CPP_SOURCES + bld.path.ant_glob('unit_test/*.cpp'),
-	            target='unit_test',
+	            target='test',
 	            use='COFFEEPP UNIT_TEST')
 	from waflib.Tools import waf_unit_test
 	bld.add_post_fun(waf_unit_test.summary)
