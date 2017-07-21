@@ -1,5 +1,13 @@
-build/
-.lock-waf*
-waf3-*
-*.sublime-workspace
-.tup/
+/build*/
+
+# Waf
+/.lock-waf*
+/waf3-*/
+/.waf3-*/
+
+# Tup
+/.tup/
+
+# Visual Studio Code
+/.vscode/tags
+/.vscode/settings.json
