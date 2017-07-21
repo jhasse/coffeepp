@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+from waflib import Configure
+Configure.autoconfig = True
+
 VERSION = '0.2'
 APPNAME='coffee++'
 top = '.'
