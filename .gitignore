@@ -2,8 +2,8 @@
 
 # Waf
 /.lock-waf*
-/waf3-*/
-/.waf3-*/
+/waf*-*/
+/.waf*/
 
 # Tup
 /.tup/
