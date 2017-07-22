@@ -1,11 +1,15 @@
 #pragma once
 
+#include <boost/optional.hpp>
 #include <string>
 #include <sstream>
 
+class IndentionType;
+
 class Line {
 public:
-	Line(const std::string& buf, bool waitForEndComment);
+	Line(const std::string& buf, bool waitForEndComment, bool wasBeginScope,
+	     boost::optional<IndentionType>& indentionType);
 	int getIndent() const;
 	std::string getNewBuf() const;
 	std::string getHeaderBuf() const;

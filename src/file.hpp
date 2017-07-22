@@ -1,5 +1,8 @@
 #pragma once
 
+#include "IndentionType.hpp"
+
+#include <boost/optional.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -18,4 +21,5 @@ private:
 	std::vector<std::shared_ptr<Line>> lines;
 	int indent;
 	std::string name;
+	boost::optional<IndentionType> indentionType;
 };

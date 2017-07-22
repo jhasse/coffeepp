@@ -1,19 +1,22 @@
 #include "file.hpp"
 
 #include "line.hpp"
+#include "IndentionType.hpp"
 
 #include <fstream>
 #include <iostream>
 
 File::File(std::istream& in, const std::string& name) : indent(0), name(name) {
 	bool waitForEndComment = false;
+	bool wasBeginScope = false;
 	while (true) {
 		std::string buf;
 		std::getline(in, buf);
 		if (!in) {
 			break;
 		}
-		auto line = std::make_shared<Line>(buf, waitForEndComment);
+		auto line = std::make_shared<Line>(buf, waitForEndComment, wasBeginScope, indentionType);
+		wasBeginScope = line->isBeginScope();
 		while (!waitForEndComment && line->getIndent() > indent) {
 			++indent;
 		}
@@ -57,6 +60,6 @@ void File::closeScopes(int newIndent) {
 			closingBrace += '\t';
 		}
 		closingBrace += '}';
-		lines.push_back(std::make_shared<Line>(closingBrace, false));
+		lines.push_back(std::make_shared<Line>(closingBrace, false, false, indentionType));
 	}
 }

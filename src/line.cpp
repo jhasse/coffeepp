@@ -1,13 +1,15 @@
 #include "line.hpp"
 
 #include "tokenizer.hpp"
+#include "IndentionType.hpp"
 
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <vector>
 
-Line::Line(const std::string& buf, bool waitForEndComment) : oldBuf(buf), indent(0), beginScope(false),
-beginComment(waitForEndComment) {
+Line::Line(const std::string& buf, const bool waitForEndComment, const bool wasBeginScope,
+           boost::optional<IndentionType>& indentionType)
+: oldBuf(buf), indent(0), beginScope(false), beginComment(waitForEndComment) {
 	boost::trim_right(oldBuf);
 	if (isEmpty()) {
 		newBuf << "\n";
@@ -149,8 +151,27 @@ beginComment(waitForEndComment) {
 	if (emptyLine) {
 		oldBuf = "";
 	}
-	while (oldBuf[indent] == '\t') {
-		++indent;
+	if (!indentionType && wasBeginScope && !oldBuf.empty()) {
+		// We don't know yet, if the file uses tabs or spaces for indention. Let's see:
+		auto it = oldBuf.begin();
+		if (*it == '\t') {
+			indentionType = IndentionType{};
+		} else if (*it == ' ') {
+			IndentionType tmp;
+			tmp.tab = false;
+			tmp.number = 0;
+			do {
+				++it;
+				++tmp.number;
+			} while (it != oldBuf.end() && *it == ' ');
+			indentionType = tmp;
+		}
+	}
+	if (indentionType) {
+		while (oldBuf[indent] == (indentionType->tab ? '\t' : ' ')) {
+			++indent;
+		}
+		indent /= indentionType->number;
 	}
 	newBuf << spaceBuf << comment << "\n";
 }
