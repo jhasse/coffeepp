@@ -56,8 +56,10 @@ void File::closeScopes(int newIndent) {
 	while (newIndent < indent) {
 		--indent;
 		std::string closingBrace;
-		for (int i = 0; i < indent; ++i) {
-			closingBrace += '\t';
+		if (indentionType) {
+			for (int i = 0; i < indent * indentionType->number; ++i) {
+				closingBrace += indentionType->tab ? '\t' : ' ';
+			}
 		}
 		closingBrace += '}';
 		lines.push_back(std::make_shared<Line>(closingBrace, false, false, indentionType));
