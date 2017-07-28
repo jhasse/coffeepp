@@ -1,0 +1,10 @@
+image: jhasse/fedora25
+
+build:
+  stage: build
+  script:
+    - ./waf
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  CLICOLOR_FORCE: "1"
