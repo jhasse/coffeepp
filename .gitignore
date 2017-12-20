@@ -1,0 +1,14 @@
+/build*/
+
+# Waf
+/.lock-waf*
+/waf*-*/
+/.waf*/
+
+# Tup
+/.tup/
+
+# Visual Studio Code
+/.vscode/tags
+/.vscode/settings.json
+/.vscode/cquery*
