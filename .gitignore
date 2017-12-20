@@ -11,3 +11,4 @@
 # Visual Studio Code
 /.vscode/tags
 /.vscode/settings.json
+/.vscode/cquery*

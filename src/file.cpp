@@ -57,7 +57,7 @@ void File::closeScopes(int newIndent) {
 		--indent;
 		std::string closingBrace;
 		if (indentionType) {
-			for (int i = 0; i < indent * indentionType->number; ++i) {
+			for (size_t i = 0; i < indent * indentionType->number; ++i) {
 				closingBrace += indentionType->tab ? '\t' : ' ';
 			}
 		}
