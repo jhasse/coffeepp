@@ -1,3 +1,5 @@
+# See https://github.com/hsutter/cppfront instead
+
 # Coffee++
 
 ## Linux
